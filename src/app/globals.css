@@ -1,0 +1,372 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Clash Display via CDN ── */
+@font-face {
+  font-family: 'Clash Display';
+  src: url('https://api.fontshare.com/v2/css?f[]=clash-display@200,300,400,500,600,700&display=swap');
+  font-display: swap;
+}
+
+:root {
+  --font-clash: 'Clash Display', sans-serif;
+  --font-jakarta: 'Plus Jakarta Sans', sans-serif;
+  --color-bg: #0D0D0D;
+  --color-surface: #1A1A1A;
+  --color-accent: #E94560;
+  --color-secondary: #F5A623;
+  --color-text: #F0F0F0;
+  --color-muted: #888888;
+  --color-border: rgba(240, 240, 240, 0.08);
+  --cursor-size: 12px;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: auto; /* Lenis handles smooth scroll */
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-jakarta);
+  overflow-x: hidden;
+  cursor: none;
+}
+
+/* ── Custom Cursor ── */
+.cursor-dot {
+  position: fixed;
+  width: var(--cursor-size);
+  height: var(--cursor-size);
+  background: var(--color-accent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  mix-blend-mode: difference;
+  transition: width 0.2s, height 0.2s, background 0.2s;
+}
+
+.cursor-ring {
+  position: fixed;
+  width: 40px;
+  height: 40px;
+  border: 1px solid rgba(233, 69, 96, 0.5);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease;
+}
+
+.cursor-dot.is-hovering {
+  width: 0;
+  height: 0;
+}
+
+.cursor-ring.is-hovering {
+  width: 60px;
+  height: 60px;
+  border-color: var(--color-accent);
+  background: rgba(233, 69, 96, 0.1);
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-accent);
+  border-radius: 2px;
+}
+
+/* ── Selection ── */
+::selection {
+  background: var(--color-accent);
+  color: #fff;
+}
+
+/* ── Typography Utilities ── */
+.font-display {
+  font-family: var(--font-clash), sans-serif;
+}
+
+.text-gradient {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-secondary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-white {
+  background: linear-gradient(135deg, #ffffff, rgba(255,255,255,0.6));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Section Base ── */
+section {
+  position: relative;
+  overflow: hidden;
+}
+
+/* ── Grain Overlay ── */
+.grain-overlay::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.04;
+}
+
+/* ── Horizontal Line Decor ── */
+.line-decor {
+  display: block;
+  width: 60px;
+  height: 2px;
+  background: var(--color-accent);
+  margin-bottom: 1.5rem;
+}
+
+/* ── Service Card Flip ── */
+.flip-card {
+  perspective: 1200px;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.4, 0.2, 0.2, 1);
+  transform-style: preserve-3d;
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 12px;
+}
+
+.flip-card-back {
+  transform: rotateY(180deg);
+}
+
+/* ── Marquee ── */
+.marquee-track {
+  display: flex;
+  gap: 3rem;
+  animation: marquee 25s linear infinite;
+  width: max-content;
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+/* ── Glass Surface ── */
+.glass {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+}
+
+/* ── Reveal base (GSAP animates these) ── */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(60px);
+}
+
+.reveal-fade {
+  opacity: 0;
+}
+
+/* ── Reduced motion ── */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .flip-card:hover .flip-card-inner {
+    transform: none;
+  }
+
+  body {
+    cursor: auto;
+  }
+
+  .cursor-dot,
+  .cursor-ring {
+    display: none;
+  }
+
+  .reveal-up,
+  .reveal-fade {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ── Masonry grid override ── */
+.my-masonry-grid {
+  display: flex;
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.my-masonry-grid_column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* ── Floating label form ── */
+.form-group {
+  position: relative;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(240, 240, 240, 0.12);
+  border-radius: 8px;
+  padding: 1.25rem 1rem 0.75rem;
+  color: var(--color-text);
+  font-family: var(--font-jakarta);
+  font-size: 0.95rem;
+  transition: border-color 0.3s ease, background 0.3s ease;
+  outline: none;
+}
+
+.form-group select option {
+  background: #1a1a1a;
+  color: var(--color-text);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+  border-color: var(--color-accent);
+  background: rgba(233, 69, 96, 0.04);
+}
+
+.form-group label {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  color: var(--color-muted);
+  font-size: 0.875rem;
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+.form-group input:focus ~ label,
+.form-group input:not(:placeholder-shown) ~ label,
+.form-group textarea:focus ~ label,
+.form-group textarea:not(:placeholder-shown) ~ label {
+  top: 0.35rem;
+  font-size: 0.7rem;
+  color: var(--color-accent);
+}
+
+/* ── Horizontal scroll section ── */
+.horizontal-scroll-container {
+  display: flex;
+  align-items: center;
+  height: 100vh;
+  width: max-content;
+}
+
+/* ── Availability badge ── */
+.availability-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #22c55e;
+  animation: pulse-green 2s infinite;
+}
+
+@keyframes pulse-green {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
+  50% { box-shadow: 0 0 0 8px rgba(34, 197, 94, 0); }
+}
+
+/* ── Filter tabs ── */
+.filter-tab {
+  position: relative;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  transition: color 0.3s;
+  cursor: none;
+}
+
+.filter-tab::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--color-accent);
+  transition: width 0.3s ease;
+}
+
+.filter-tab.active {
+  color: var(--color-text);
+}
+
+.filter-tab.active::after {
+  width: 100%;
+}
+
+/* ── Scroll indicator ── */
+.scroll-indicator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  animation: float 2.5s ease-in-out infinite;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 60px;
+  background: linear-gradient(to bottom, var(--color-accent), transparent);
+}
+
+/* ── Process Step ── */
+.process-step {
+  flex-shrink: 0;
+  width: 300px;
+  padding: 2rem;
+}
